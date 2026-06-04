@@ -1,5 +1,9 @@
 # Hugo + Elm Mock Starter
 
+[![Build and Deploy](https://github.com/Gizra/hugo-elm-mock-starter/actions/workflows/build.yml/badge.svg)](https://github.com/Gizra/hugo-elm-mock-starter/actions/workflows/build.yml)
+[![Lint](https://github.com/Gizra/hugo-elm-mock-starter/actions/workflows/lint.yml/badge.svg)](https://github.com/Gizra/hugo-elm-mock-starter/actions/workflows/lint.yml)
+[![Pa11y](https://github.com/Gizra/hugo-elm-mock-starter/actions/workflows/pa11y.yml/badge.svg)](https://github.com/Gizra/hugo-elm-mock-starter/actions/workflows/pa11y.yml)
+
 A starter kit for building **redesign mockups** and **prototype ideas** as a
 static site: Hugo + Tailwind v4 with an embedded **Elm app** wired as an offline
 **mock** (no backend). Use it to stand up a believable, interactive prototype
