@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Tailwind v4 — scan templates/content/JS for utility classes. Paths are
+   relative to this file (assets/css/). */
+@source "../../layouts/**/*.html";
+@source "../../content/**/*.md";
+@source "../../content/**/*.html";
+@source "../../assets/javascript/*.js";
+/* The embedded Elm app emits Tailwind class names as string literals in its
+   compiled bundle — scan it so those utilities are generated. */
+@source "../../assets/javascript/vendor/elm-main.js";
+
+@theme {
+  /* Neutral type stack. Body face is loaded in head.html (Inter). */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+
+  /* The one project accent. Recolor here; everything else is stock Tailwind.
+     These values pass WCAG AAA: white text on --color-accent, and
+     --color-accent text on --color-accent-soft. */
+  --color-accent:      #1e40af; /* action / link color */
+  --color-accent-dark: #1e3a8a; /* hover */
+  --color-accent-soft: #dbeafe; /* soft fills (chips, active rows) */
+
+  /* Mount transition for elements that appear mid-stream. */
+  --animate-fade-in-up: fade-in-up 0.3s ease-out both;
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(0.4rem); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+}

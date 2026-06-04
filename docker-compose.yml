@@ -1,0 +1,51 @@
+services:
+  tailwind:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hugo-elm-starter:local
+    volumes:
+      - .:/src
+      - /src/node_modules
+      - /src/assets/css/node_modules
+    working_dir: /src/assets/css
+    command: tailwindcss -i ./style.css -o ./output.css --watch=always
+    healthcheck:
+      test: ["CMD", "test", "-s", "/src/assets/css/output.css"]
+      interval: 1s
+      timeout: 2s
+      retries: 30
+      start_period: 2s
+
+  hugo:
+    image: hugo-elm-starter:local
+    ports:
+      - "${PORT:-1313}:${PORT:-1313}"
+    volumes:
+      - .:/src
+      - /src/node_modules
+      - /src/assets/css/node_modules
+    environment:
+      - HUGO_ENV=development
+      - HUGO_BASEURL=http://localhost:${PORT:-1313}
+    depends_on:
+      tailwind:
+        condition: service_healthy
+    command: >
+      hugo server
+        --bind 0.0.0.0
+        --port ${PORT:-1313}
+        --disableFastRender
+        --noHTTPCache
+        --poll 700ms
+
+  # Compiles the embedded Elm app and recompiles on change. Reuses the Hugo
+  # image (Elm is baked in via the Dockerfile) so no host toolchain is needed.
+  elm:
+    image: hugo-elm-starter:local
+    volumes:
+      - .:/src
+      - /src/node_modules
+      - /src/assets/css/node_modules
+    working_dir: /src
+    command: sh /src/scripts/elm-watch.sh

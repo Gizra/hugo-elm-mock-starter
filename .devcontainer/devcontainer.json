@@ -1,0 +1,31 @@
+{
+  // Codespace for the starter. Docker-in-Docker lets the dev stack
+  // (scripts/dev.sh -> docker compose up) run unchanged inside the Codespace.
+  "name": "Hugo + Elm Mock Starter",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    // Run `docker compose` (and so scripts/dev.sh, `docker compose exec hugo …`) inside the Codespace.
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    // Node + npm: used to install Elm in post-create.
+    "ghcr.io/devcontainers/features/node:1": {},
+    // GitHub CLI (`gh`) for PRs, issues, and other GitHub ops from the Codespace.
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    // Claude Code CLI (authenticate interactively with your subscription via `claude`).
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
+  },
+  // scripts/dev.sh starts at 1313 and increments if a port is busy.
+  "forwardPorts": [1313, 1314, 1315],
+  "portsAttributes": {
+    "1313": { "label": "Hugo dev server", "onAutoForward": "openBrowser" }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "budparr.language-hugo-vscode",
+        "elmtooling.elm-ls-vscode"
+      ]
+    }
+  }
+}

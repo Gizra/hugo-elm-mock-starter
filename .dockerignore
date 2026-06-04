@@ -1,0 +1,38 @@
+# Version control
+.git
+.gitignore
+
+# Hugo build output (regenerated inside the container)
+public/
+public-build/
+resources/
+
+# Node dependencies (installed inside the image)
+node_modules/
+assets/css/node_modules/
+
+# Editor / tooling state
+.idea/
+.vscode/
+.claude/
+.superpowers/
+.browser-sessions/
+docs/superpowers/
+
+# Worktrees
+.worktrees/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Hugo locks and logs
+.hugo_build.lock
+*.log
+
+# Local env files
+.env
+.env.*
+
+# Docs not needed in image
+README.md

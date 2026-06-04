@@ -1,0 +1,33 @@
+name: Lint
+
+on:
+  pull_request:
+    paths:
+      - 'assets/javascript/**'
+      - 'eslint.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/lint.yml'
+  push:
+    paths:
+      - 'assets/javascript/**'
+      - 'eslint.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/lint.yml'
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint

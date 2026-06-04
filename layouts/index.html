@@ -1,0 +1,11 @@
+{{ define "main" }}
+<main class="flex grow flex-col">
+  {{/* boot.js replaces this node with the compiled Elm app. The data-* attrs
+       become Elm flags; this is a mock — no network call is made. */}}
+  <div data-mock-app
+       data-page-title="Ask the mock assistant"
+       data-input-placeholder="Type a message and press Enter…">
+    <p class="mx-auto max-w-3xl px-4 py-8 text-slate-600">Loading the app…</p>
+  </div>
+</main>
+{{ end }}

@@ -1,0 +1,26 @@
+languageCode: "en-us"
+# No project-specific baseURL is baked in. Dev sets it via HUGO_BASEURL
+# (docker-compose.yml); the static build requires HUGO_BASEURL (scripts/build.sh).
+baseURL: "/"
+title: "Hugo + Elm Mock Starter"
+disableKinds:
+  - "taxonomy"
+  - "term"
+params:
+  description: "A Hugo + Tailwind + Elm starter for building redesign mockups with an embedded, offline-mocked Elm app."
+  nav:
+    - name: "Home"
+      url: "/"
+    - name: "Docs"
+      url: "#"
+    - name: "About"
+      url: "#"
+  footerLegal:
+    - name: "Privacy Policy"
+      url: "#"
+    - name: "Terms of Use"
+      url: "#"
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" dir="ltr">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="flex min-h-screen flex-col bg-white text-slate-900">
+  {{ partial "header.html" . }}
+  {{- block "main" . }}{{- end }}
+  {{ partial "footer.html" . }}
+
+  {{/* The compiled Elm app (vendored, already generated) is concatenated ahead
+       of our own scripts so boot.js can use the global `Elm`. */}}
+  {{ $elm := resources.Get "javascript/vendor/elm-main.js" }}
+  {{ $app := slice (resources.Get "javascript/script.js") (resources.Get "javascript/boot.js") | resources.Concat "app-src.js" | minify }}
+  {{ $bundle := slice $elm $app | resources.Concat "app.js" | fingerprint }}
+  <script defer src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}"></script>
+</body>
+</html>

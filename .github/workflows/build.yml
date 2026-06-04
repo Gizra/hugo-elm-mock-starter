@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'assets/**'
+      - 'content/**'
+      - 'data/**'
+      - 'layouts/**'
+      - 'static/**'
+      - 'config/**'
+      - 'elm/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'scripts/build.sh'
+      - '.github/workflows/build.yml'
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Run build script
+        # Derive the GitHub Pages base URL from the repo context so no
+        # project-specific URL is hard-coded in the starter.
+        env:
+          HUGO_BASEURL: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+        run: ./scripts/build.sh

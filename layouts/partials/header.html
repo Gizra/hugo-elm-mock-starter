@@ -1,0 +1,33 @@
+{{ "<!-- header.html -->" | safeHTML -}}
+<header class="sticky top-0 z-50 shrink-0 border-b border-slate-200 bg-white">
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
+    <a href="{{ site.Home.RelPermalink }}" class="rounded-md text-lg font-bold tracking-tight text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+      {{ site.Title }}
+    </a>
+
+    {{/* Desktop nav */}}
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-x-6 text-sm">
+        {{ range site.Params.nav }}
+          <li><a href="{{ .url }}" class="rounded-sm font-semibold text-slate-700 hover:text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">{{ .name }}</a></li>
+        {{ end }}
+      </ul>
+    </nav>
+
+    {{/* Mobile menu (<md) — JS-free disclosure */}}
+    <details class="group relative md:hidden">
+      <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
+        <span class="sr-only">Menu</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-7 w-7 group-open:hidden" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="hidden h-7 w-7 group-open:block" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6 18 18M18 6 6 18" stroke-linecap="round"/></svg>
+      </summary>
+      <nav aria-label="Primary mobile" class="absolute right-0 top-full z-50 mt-2 w-56 rounded-xl bg-accent p-3 text-white shadow-xl">
+        <ul class="flex flex-col gap-y-1">
+          {{ range site.Params.nav }}
+            <li><a href="{{ .url }}" class="block rounded-lg px-3 py-2.5 font-semibold hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">{{ .name }}</a></li>
+          {{ end }}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

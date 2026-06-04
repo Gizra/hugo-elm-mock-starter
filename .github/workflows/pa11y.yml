@@ -1,0 +1,98 @@
+# Runs `npm run pa11y` (pa11y-ci, WCAG 2.1 AAA) against a Dockerized Hugo dev
+# server to catch accessibility regressions on PR.
+name: Pa11y
+
+on:
+  pull_request:
+    paths:
+      - 'assets/**'
+      - 'content/**'
+      - 'data/**'
+      - 'layouts/**'
+      - 'static/**'
+      - 'config/**'
+      - 'elm/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.pa11y.json'
+      - '.pa11yci.js'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.github/workflows/pa11y.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'assets/**'
+      - 'content/**'
+      - 'data/**'
+      - 'layouts/**'
+      - 'static/**'
+      - 'config/**'
+      - 'elm/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.pa11y.json'
+      - '.pa11yci.js'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.github/workflows/pa11y.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: pa11y-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pa11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # Buildx is required for the `type=gha` cache backend below.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Only the `tailwind` service has a `build:` directive in
+      # docker-compose.yml; `hugo` reuses the resulting `hugo-elm-starter:local`
+      # image by tag. `load: true` pushes the built image into the local
+      # Docker daemon so `docker compose up` finds it cached.
+      - name: Build Hugo image (with GHA cache)
+        uses: docker/bake-action@v5
+        with:
+          files: docker-compose.yml
+          targets: tailwind
+          load: true
+          set: |
+            tailwind.cache-from=type=gha,scope=pa11y
+            tailwind.cache-to=type=gha,scope=pa11y,mode=max
+
+      - name: Start dev server
+        run: docker compose up -d
+
+      # Hugo server takes a few seconds to bind :1313 after the container
+      # starts (tailwind healthcheck + hugo boot). Poll instead of a fixed
+      # sleep so the job is resilient to CI runner variance.
+      - name: Wait for Hugo to be ready
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:1313/ > /dev/null; then
+              echo "Hugo is up after ${i} attempt(s)"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Hugo failed to start within 120s"
+          docker compose logs
+          exit 1
+
+      # `-T` disables TTY allocation — required in non-interactive CI.
+      - name: Run pa11y
+        run: docker compose exec -T hugo npm run pa11y
+
+      - name: Show server logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Stop dev server
+        if: always()
+        run: docker compose down
