@@ -24,7 +24,7 @@ fast — then swap in your own UI.
 ## Development
 
 ```bash
-bash scripts/dev.sh   # docker compose up; finds a free port from 1313
+make dev   # docker compose up; finds a free port from 1313, prunes dangling images
 ```
 
 This runs the Tailwind CLI watcher (`style.css` → `output.css`), the Hugo dev
