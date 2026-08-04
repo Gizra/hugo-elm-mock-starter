@@ -66,7 +66,7 @@ The base URL is required and not hard-coded. Set it via `HUGO_BASEURL`, or
 replace the `baseURL: "/"` placeholder in `config/_default/config.yaml`.
 
 ```bash
-HUGO_BASEURL=https://<user>.github.io/<repo>/ bash scripts/build.sh
+HUGO_BASEURL=https://<user>.github.io/<repo>/ make build
 ```
 
 CI (`.github/workflows/build.yml`) derives the base URL from the repo context
