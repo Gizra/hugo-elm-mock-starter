@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 hugomods/hugo:exts-0.154.5
+FROM hugomods/hugo:exts-0.154.5
 
 # Install Chromium and dependencies for pa11y/Puppeteer (accessibility checks).
 RUN apk add --no-cache \
@@ -13,11 +13,10 @@ RUN apk add --no-cache \
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# Install Elm 0.19.1 to compile the embedded app in-container (local dev only;
-# the gh-pages build ships the committed elm-main.js). The official Elm binary
-# is glibc-linked, so Alpine/musl needs gcompat to run it.
-RUN apk add --no-cache gcompat \
-  && npm install -g elm@latest \
+# Install Elm to compile the embedded app in-container (local dev only; the
+# gh-pages build ships the committed elm-main.js). The version must match
+# elm.json's elm-version, or the compiler refuses to build.
+RUN npm install -g elm@0.19.2-0 \
   && elm --version
 
 WORKDIR /src
