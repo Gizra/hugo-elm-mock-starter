@@ -1,6 +1,6 @@
 languageCode: "en-us"
 # No project-specific baseURL is baked in. Dev sets it via HUGO_BASEURL
-# (docker-compose.yml); the static build requires HUGO_BASEURL (scripts/build.sh).
+# (docker-compose.yml); the static build requires HUGO_BASEURL (make build).
 baseURL: "/"
 title: "Hugo + Elm Mock Starter"
 disableKinds:

@@ -26,7 +26,7 @@ Check the site builds without errors:
 docker compose exec hugo hugo --gc --minify
 
 # Or build the gh-pages output from scratch (requires HUGO_BASEURL):
-HUGO_BASEURL=https://<user>.github.io/<repo>/ bash scripts/build.sh
+HUGO_BASEURL=https://<user>.github.io/<repo>/ make build
 ```
 
 The base URL is intentionally not hard-coded — set `HUGO_BASEURL` or replace the

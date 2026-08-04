@@ -16,7 +16,7 @@ on:
       - 'package-lock.json'
       - 'Dockerfile'
       - 'docker-compose.yml'
-      - 'scripts/build.sh'
+      - 'Makefile'
       - '.github/workflows/build.yml'
 
 concurrency:
@@ -38,4 +38,4 @@ jobs:
         # project-specific URL is hard-coded in the starter.
         env:
           HUGO_BASEURL: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
-        run: ./scripts/build.sh
+        run: make build
