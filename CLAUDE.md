@@ -11,7 +11,7 @@ Start the dev server (finds a free port from 1313 and runs the Elm + Tailwind
 watchers + Hugo, all in Docker):
 
 ```bash
-bash scripts/dev.sh
+make dev
 ```
 
 The Tailwind CLI compiles `assets/css/style.css` → `assets/css/output.css`
