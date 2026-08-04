@@ -98,9 +98,14 @@ build:
 	cd public-build
 	git config user.name "$${GIT_DEPLOY_NAME:-github-actions[bot]}"
 	git config user.email "$${GIT_DEPLOY_EMAIL:-41898282+github-actions[bot]@users.noreply.github.com}"
-	git add --all && git commit -m "Deploy to gh-pages: $$TODAY"
-	echo "Deploying to Github Pages"
-	git push origin gh-pages:gh-pages
+	git add --all
+	if git diff --cached --quiet; then
+		echo "No changes to deploy — gh-pages already up to date."
+	else
+		git commit -m "Deploy to gh-pages: $$TODAY"
+		echo "Deploying to Github Pages"
+		git push origin gh-pages:gh-pages
+	fi
 
 ## lint: run ESLint inside the running hugo container.
 lint:
