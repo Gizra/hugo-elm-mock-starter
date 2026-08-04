@@ -72,7 +72,7 @@ The homepage embeds the Elm chat app (`elm/src/*.elm`). It is wired as a
 `sendToOpenAi` / `openAiEvent` ports, and `assets/javascript/boot.js` answers
 with a scripted stream so the interaction can be shown offline.
 
-- Source: `elm/src/` (Elm 0.19.1). Compiles to
+- Source: `elm/src/` (Elm 0.19.2). Compiles to
   `assets/javascript/vendor/elm-main.js` (committed, so Docker/CI builds need no
   Elm toolchain).
 - Rebuild manually (in the container): `docker compose exec hugo sh elm/build.sh`.

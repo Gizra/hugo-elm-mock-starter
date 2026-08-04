@@ -14,7 +14,7 @@ fast — then swap in your own UI.
 - **Hugo** static site (single homepage) that embeds the Elm app.
 - **Tailwind v4** — utility-first, stock classes plus a single `--color-accent`
   token. WCAG 2.1 AAA target.
-- **Elm 0.19.1** app: a sessions sidebar + a chat column. It talks to its
+- **Elm 0.19.2** app: a sessions sidebar + a chat column. It talks to its
   `sendToOpenAi` / `openAiEvent` ports; `assets/javascript/boot.js` answers with
   a scripted, streamed mock so the interaction runs entirely offline.
 - **Docker Compose** dev stack (Hugo + Tailwind + Elm watchers) — no host
@@ -37,7 +37,7 @@ The homepage mounts an Elm chat app. It is a **mock**: no network call is made.
 `assets/javascript/boot.js` feeds the app a scripted stream of events so the
 interaction can be demonstrated offline.
 
-- Source: `elm/src/` (Elm 0.19.1). Compiles to
+- Source: `elm/src/` (Elm 0.19.2). Compiles to
   `assets/javascript/vendor/elm-main.js` (committed, so Docker/CI builds need no
   Elm toolchain).
 - Rebuild manually (in the container): `docker compose exec hugo sh elm/build.sh`.
