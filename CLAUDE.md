@@ -96,6 +96,11 @@ modifying any file there, run ESLint and expect 0 errors:
 docker compose exec hugo npm run lint   # or: npm run lint:fix
 ```
 
+## Comments
+
+A comment is at most 30 words, and a paragraph in a `.md` file the same. Only
+what a branch writes is measured. `make comments` runs the check CI runs.
+
 ## Code hygiene
 
 If you come across stale code while working — a selector/class/reference that no

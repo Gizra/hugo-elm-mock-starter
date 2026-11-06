@@ -1,0 +1,32 @@
+name: Comments — short ones only
+
+# Only what a PR writes is measured; nothing already in the tree needs rewriting.
+on:
+  pull_request:
+
+concurrency:
+  group: comments-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  comments:
+    name: Every new comment inside the limit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The merge commit and both parents, which is all `HEAD^1` needs.
+          fetch-depth: 2
+
+      # The checker's own tests first. Stdlib only, nothing to install.
+      - name: The checker's own tests
+        run: |
+          PYTHONPATH=tools python3 -m unittest discover \
+            -s tools/tests -p 'test_check_comments.py' -t tools/tests
+
+      # The checkout is the PR merged into its base; `HEAD^1` is that base.
+      - name: Every comment this PR writes
+        run: python3 tools/check_comments.py --base HEAD^1
