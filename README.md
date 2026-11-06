@@ -60,6 +60,15 @@ docker compose exec hugo npm run pa11y
 docker compose exec hugo npm run lint   # or: npm run lint:fix
 ```
 
+## Short comments
+
+A comment is at most 30 words, and a paragraph in a `.md` file the same. Only
+what a branch writes is measured; nothing already in the tree needs rewriting.
+
+```bash
+make comments   # the check CI runs, against origin/main (or BASE=<ref>)
+```
+
 ## Build / deploy (GitHub Pages)
 
 The base URL is required and not hard-coded. Set it via `HUGO_BASEURL`, or

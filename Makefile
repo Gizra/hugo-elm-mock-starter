@@ -5,7 +5,7 @@
 SHELL := /bin/bash
 .ONESHELL:
 
-.PHONY: dev stop build lint pa11y clean
+.PHONY: dev stop build lint pa11y comments clean
 
 # Find a free port starting from 1313 (each candidate must be free).
 define FIND_PORT
@@ -114,6 +114,13 @@ lint:
 ## pa11y: run the WCAG 2.1 AAA accessibility checks against the dev server.
 pa11y:
 	docker compose exec hugo npm run pa11y
+
+## comments: every comment and README paragraph this branch writes is at most 30 words.
+BASE ?= origin/main
+comments:
+	@PYTHONPATH=tools python3 -m unittest discover -q \
+	  -s tools/tests -p 'test_check_comments.py' -t tools/tests
+	@python3 tools/check_comments.py --base $(BASE)
 
 ## clean: stop containers and remove dangling images and build output.
 clean:
